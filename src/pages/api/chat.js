@@ -1,3 +1,4 @@
+// Aquí añade tu API_KEY, porque esta no funcionará
 const OPENAI_API_KEY = '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'
 
 export default async function handler(req, res) {
