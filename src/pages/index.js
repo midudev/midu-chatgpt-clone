@@ -11,7 +11,7 @@ function Layout({ children }) {
       <Head>
         <title>midu Chat GPT</title>
       </Head>
-      <div className='w-full relative bg-gptgray h-screen'>
+      <div className='relative flex w-full h-screen bg-gptgray'>
         <Aside />
         {children}
       </div>
@@ -21,9 +21,9 @@ function Layout({ children }) {
 
 function Aside() {
   return (
-    <aside className='bg-gptdarkgray fixed flex w-64 h-screen flex-col'>
+    <aside className='fixed z-10 flex w-64 h-screen -translate-x-full md:transform-none md:relative shrink-0 bg-gptdarkgray'>
       <nav className='flex flex-col flex-1 h-full p-2 space-y-1'>
-        <button className='flex py-3 px-3 items-center gap-3 rounded-md hover:bg-gray-500/10 transition-colors duration-200 text-white cursor-pointer text-sm mb-2 flex-shrink-0 border border-white/20'>
+        <button className='flex items-center flex-shrink-0 gap-3 px-3 py-3 mb-2 text-sm text-white transition-colors duration-200 border rounded-md cursor-pointer hover:bg-gray-500/10 border-white/20'>
           <PlusIcon />
           New chat
         </button>
@@ -47,11 +47,11 @@ function Message({ ia, message }) {
 
   return (
     <div className={`text-gray-100 ${ia ? 'bg-gptlightgray' : 'bg-gptgray'}`}>
-      <article className='flex gap-4 p-6 m-auto max-w-3xl'>
+      <article className='flex max-w-3xl gap-4 p-6 m-auto'>
         <Avatar>{avatar}</Avatar>
 
         <div className='min-h-[20px] flex flex-1 flex-col items-start gap-4 whitespace-pre-wrap'>
-          <div className='prose-invert w-full break-words'>
+          <div className='w-full break-words prose-invert'>
             <p>{textElement}</p>
           </div>
         </div>
@@ -64,8 +64,8 @@ function Chat() {
   const messages = useMessageStore((state) => state.messages)
 
   return (
-    <div className='flex flex-col h-full flex-1 pl-64'>
-      <main>
+    <div className='flex flex-col w-full h-full'>
+      <main className='flex-1 overflow-y-auto'>
         {messages.map((entry) => (
           <Message key={entry.id} {...entry} />
         ))}
@@ -102,7 +102,7 @@ function ChatForm() {
   }
 
   return (
-    <section className='absolute bottom-0 w-full left-0 right-0 ml-32'>
+    <section className='w-full px-2 shrink-0'>
       <form
         onSubmit={handleSubmit}
         onKeyDown={handleKeyDown}
