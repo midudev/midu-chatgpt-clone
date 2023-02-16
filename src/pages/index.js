@@ -90,6 +90,7 @@ function ChatForm() {
   const handleChange = () => {
     const el = textAreaRef.current
 
+    el.style.height = '0px'
     const scrollHeight = el.scrollHeight
     el.style.height = scrollHeight + 'px'
   }

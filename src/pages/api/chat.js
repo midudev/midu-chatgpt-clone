@@ -1,5 +1,5 @@
 // Aquí añade tu API_KEY, porque esta no funcionará
-const OPENAI_API_KEY = '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'
+const OPENAI_API_KEY = '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'
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end()
@@ -9,8 +9,6 @@ export default async function handler(req, res) {
   if (!prompt) {
     return res.status(400).json({ error: 'Prompt is required' })
   }
-
-  console.log(OPENAI_API_KEY)
 
   try {
     console.log('antes de la response')
@@ -44,7 +42,7 @@ export default async function handler(req, res) {
 
     console.log(json)
 
-    return res.status(200).json({ response: json.choices[0].text })
+    return res.status(200).json({ response: json.choices[0].text.trim() })
   } catch (e) {
     console.error(e)
     res.status(500).json({ error: e })
