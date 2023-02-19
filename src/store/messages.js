@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { fetchEventSource } from '@waylaidwanderer/fetch-event-source'
 
 export const useMessageStore = create((set, get) => ({
   messages: [],
@@ -25,31 +26,62 @@ export const useMessageStore = create((set, get) => ({
     }))
 
     // Fetching de datos
+    const controller = new AbortController()
     try {
-      const response = await fetch('/api/chat', {
+      let done = false
+      await fetchEventSource('/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ prompt })
-      })
-
-      const json = await response.json()
-
-      // Actualizar el mensaje de la IA
-      // que tenía el mensaje vacio,
-      // con el texto completo
-      set((state) => ({
-        messages: state.messages.map((entry) => {
-          if (entry.id === messageIAid) {
-            return {
-              ...entry,
-              message: json.response
-            }
+        body: JSON.stringify({ prompt }),
+        bodyTimeout: 0,
+        headersTimeout: 0,
+        signal: controller.signal,
+        async onopen(response) {
+          if (response.status === 200) {
+            return
           }
-          return entry
-        })
-      }))
+          let error
+          try {
+            const body = await response.text()
+            error = new Error(`Failed to send message. HTTP ${response.status} - ${body}`)
+            error.status = response.status
+            error.json = JSON.parse(body)
+          } catch {
+            error = error || new Error(`Failed to send message. HTTP ${response.status}`)
+          }
+          throw error
+        },
+        onclose() {
+          if (!done) {
+            controller.abort()
+          }
+        },
+        onerror(err) {
+          throw err
+        },
+        onmessage(msg) {
+          if (!msg.data) {
+            return
+          }
+          if (msg.data === '[DONE]') {
+            controller.abort()
+            done = true
+          }
+          set((state) => ({
+            messages: state.messages.map((entry) => {
+              if (entry.id === messageIAid) {
+                return {
+                  ...entry,
+                  message: get().messages[messageIAid].message + msg.data.replace('data: ', '')
+                }
+              }
+              return entry
+            })
+          }))
+        }
+      })
     } catch (error) {
       console.error(error)
     }

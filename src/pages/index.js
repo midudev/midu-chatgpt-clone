@@ -1,6 +1,5 @@
 import { Avatar } from '@/components/Avatar.jsx'
 import { ChatGPTLogo, PlusIcon, SendIcon } from '@/components/Icons.jsx'
-import { TypingEffect } from '@/components/TypingEffect.jsx'
 import { useMessageStore } from '@/store/messages.js'
 import Head from 'next/head'
 import { useRef } from 'react'
@@ -43,8 +42,6 @@ function UserAvatar() {
 
 function Message({ ia, message }) {
   const avatar = ia ? <ChatGPTLogo /> : <UserAvatar />
-  const textElement = ia ? <TypingEffect text={message} /> : message
-
   return (
     <div className={`text-gray-100 ${ia ? 'bg-gptlightgray' : 'bg-gptgray'}`}>
       <article className='flex gap-4 p-6 m-auto max-w-3xl'>
@@ -52,7 +49,7 @@ function Message({ ia, message }) {
 
         <div className='min-h-[20px] flex flex-1 flex-col items-start gap-4 whitespace-pre-wrap'>
           <div className='prose-invert w-full break-words'>
-            <p>{textElement}</p>
+            <p>{message}</p>
           </div>
         </div>
       </article>
