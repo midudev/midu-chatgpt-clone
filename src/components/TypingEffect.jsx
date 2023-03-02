@@ -8,8 +8,6 @@ const useTypingEffect = ({ text }) => {
   useEffect(() => {
     if (!text?.length) return
 
-    const randomTime = Math.floor(Math.random() * 40) + 15
-
     const intervalId = setInterval(() => {
       if (currentIndex >= text.length) {
         clearInterval(intervalId)
@@ -26,7 +24,7 @@ const useTypingEffect = ({ text }) => {
 
       setDisplayText(text.slice(0, nextIndex))
       setCurrentIndex(currentIndex + 1)
-    }, randomTime)
+    }, 1)
 
     return () => clearInterval(intervalId)
   }, [text, currentIndex])
