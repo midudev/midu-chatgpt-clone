@@ -109,3 +109,15 @@ a {
     color-scheme: dark;
   }
 }
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(86,88,105,1);
+  border-color: rgba(255,255,255,1);
+  border-radius: 9999px;
+  border-width: 1px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+  border-radius: 9999px;
+}
