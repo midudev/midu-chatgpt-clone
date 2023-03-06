@@ -1,13 +1,34 @@
 import { SendIcon } from '@/components/Icons.jsx'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useConversationsStore } from '@/store/conversations'
 
+const loadingStates = [
+  [true, false, false],
+  [true, true, false],
+  [true, true, true]
+]
+
 function LoadingButton () {
+  const [index, setIndex] = useState(0)
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setIndex(prevIndex => {
+        const newIndex = prevIndex + 1
+        return newIndex > 2 ? 0 : newIndex
+      })
+    }, 400)
+
+    return () => clearInterval(intervalId)
+  }, [])
+
+  const [, showSecond, showThird] = loadingStates[index]
+
   return (
     <div className='text-2xl'>
-      <span class=''>·</span>
-      <span class=''>·</span>
-      <span class=''>·</span>
+      <span className=''>·</span>
+      <span className={`${!showSecond && 'invisible'}`}>·</span>
+      <span className={`${!showThird && 'invisible'}`}>·</span>
     </div>
   )
 }
@@ -46,7 +67,7 @@ export function ChatForm() {
   }, [])
 
   return (
-    <section className='absolute bottom-0 left-0 right-0 w-full ml-32'>
+    <section className='fixed bottom-0 left-0 right-0 w-full ml-32 border-t md:border-t-0 dark:border-white/20 md:border-transparent bg-gradient'>
       <form
         disabled={isLoading}
         onSubmit={handleSubmit}
@@ -64,8 +85,9 @@ export function ChatForm() {
             className='w-full h-[24px] resize-none bg-transparent m-0 border-0 outline-none'
           />
           <button
+            disabled={isLoading}
             type='submit'
-            className='absolute p-1 rounded-md bottom-2.5 right-2.5'
+            className={`opacity-40 absolute p-1 rounded-md bottom-0 h-full right-2.5 ${isLoading ? 'pointer-events-none' : 'hover:shadow-2xl rounded-full'}`}
           >
             {
               isLoading ? <LoadingButton /> : <SendIcon />
