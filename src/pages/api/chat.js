@@ -24,11 +24,16 @@ export default async function handler(req, res) {
   let previousConversation = []
   try {
     const decompressedConversation = decompress(conversation)
-    const parsedConversation = JSON.parse(decompressedConversation)
+    let parsedConversation = {}
+    try {
+      parsedConversation = JSON.parse(decompressedConversation)
+    } catch (e) {
+      console.error('Problems parsing', decompressedConversation)
+      return res.status(400).json({ error: 'Error parsing' })
+    }
 
     previousConversation = parsedConversation
       .map((entry) => {
-        console.log(entry)
         const role = entry.ia ? 'assistant' : 'user'
 
         // ignore messages without content
@@ -109,7 +114,9 @@ export default async function handler(req, res) {
           console.error(e)
         }
 
-        res.write(`data: ${content}\n\n`)
+        console.log('----------------')
+        console.log({ content })
+        res.write(`data: ${JSON.stringify(content)}\n\n`)
         res.flush()
       }
     }
