@@ -67,15 +67,44 @@ export function SunIcon() {
   )
 }
 
-export function ZapIcon () {
+export function ZapIcon() {
   return (
-    <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' aria-hidden='true' class='h-6 w-6'><path stroke-linecap='round' stroke-linejoin='round' d='M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z' /></svg>
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      fill='none'
+      viewBox='0 0 24 24'
+      strokeWidth='1.5'
+      stroke='currentColor'
+      aria-hidden='true'
+      className='w-6 h-6'
+    >
+      <path
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        d='M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z'
+      />
+    </svg>
   )
 }
 
-export function WarningIcon () {
+export function WarningIcon() {
   return (
-    <svg stroke='currentColor' fill='none' stroke-width='1.5' viewBox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' class='h-6 w-6' height='1em' width='1em' xmlns='http://www.w3.org/2000/svg'><path d='M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z' /><line x1='12' y1='9' x2='12' y2='13' /><line x1='12' y1='17' x2='12.01' y2='17' /></svg>
+    <svg
+      stroke='currentColor'
+      fill='none'
+      strokeWidth='1.5'
+      viewBox='0 0 24 24'
+      strokeLinecap='round'
+      strokeLinejoin='round'
+      className='w-6 h-6'
+      height='1em'
+      width='1em'
+      xmlns='http://www.w3.org/2000/svg'
+    >
+      <path d='M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z' />
+      <line x1='12' y1='9' x2='12' y2='13' />
+      <line x1='12' y1='17' x2='12.01' y2='17' />
+    </svg>
   )
 }
 
@@ -237,16 +266,19 @@ export const TwitchIcon = ({ className }) => {
 
 export function ReactIcon({ className }) {
   return (
-    <svg className={className} xmlns='http://www.w3.org/2000/svg' viewBox='-11.5 -10.23174 23 20.46348'>
+    <svg
+      className={className}
+      xmlns='http://www.w3.org/2000/svg'
+      viewBox='-11.5 -10.23174 23 20.46348'
+    >
       <title>React Logo</title>
       <circle cx='0' cy='0' r='2.05' fill='#61dafb' />
-      <g stroke='#61dafb' stroke-width='1' fill='none'>
+      <g stroke='#61dafb' strokeWidth='1' fill='none'>
         <ellipse rx='11' ry='4.2' />
         <ellipse rx='11' ry='4.2' transform='rotate(60)' />
         <ellipse rx='11' ry='4.2' transform='rotate(120)' />
       </g>
     </svg>
-
   )
 }
 
@@ -255,11 +287,11 @@ export function CloseIcon() {
     <svg
       stroke='currentColor'
       fill='none'
-      stroke-width='1.5'
+      strokeWidth='1.5'
       viewBox='0 0 24 24'
-      stroke-linecap='round'
-      stroke-linejoin='round'
-      class='h-6 w-6 text-white'
+      strokeLinecap='round'
+      strokeLinejoin='round'
+      className='w-6 h-6 text-white'
       height='1em'
       width='1em'
       xmlns='http://www.w3.org/2000/svg'
@@ -326,6 +358,26 @@ export function PencilInSquareIcon() {
     >
       <path d='M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7' />
       <path d='M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z' />
+    </svg>
+  )
+}
+
+export function CheckIcon() {
+  return (
+    <svg
+      stroke='currentColor'
+      fill='none'
+      stroke-width='2'
+      viewBox='0 0 24 24'
+      strokeLinecap='round'
+      strokeLinejoin='round'
+      className='w-4 h-4'
+      height='1em'
+      width='1em'
+      xmlns='http://www.w3.org/2000/svg'
+    >
+      <path d='M12 20h9' />
+      <path d='M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z' />
     </svg>
   )
 }
