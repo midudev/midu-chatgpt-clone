@@ -2,6 +2,7 @@ import { compress } from 'lz-ts'
 import { mountStoreDevtool } from 'simple-zustand-devtools'
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
+import snarkdown from 'snarkdown'
 
 export const useConversationsStore = create(
   persist(
@@ -10,19 +11,33 @@ export const useConversationsStore = create(
       conversationsMessages: {},
       conversationsInfo: {},
       selectedConversation: null,
+      clearConversations: () => {
+        set(() => ({
+          loading: false,
+          conversationsMessages: {},
+          conversationsInfo: {},
+          selectedConversation: null
+        }))
+      },
       removeConversation: async ({ id }) => {
+        const newSelectedConversation =
+          get().selectedConversation === id ? null : get().selectedConversation
+
         set((state) => {
           const { [id]: _, ...conversationsMessages } =
             state.conversationsMessages
           const { [id]: __, ...conversationsInfo } = state.conversationsInfo
 
           return {
+            selectedConversation: newSelectedConversation,
             conversationsMessages,
             conversationsInfo
           }
         })
       },
-      addConversation: async ({ id, prompt }) => {},
+      addNewConversation: async ({ id }) => {
+        set((state) => {})
+      },
       sendPrompt: async ({ prompt }) => {
         let selectedConversation = get().selectedConversation
         const userMessageID = crypto.randomUUID()
@@ -91,8 +106,30 @@ export const useConversationsStore = create(
           )
           let message = ''
 
+          eventSource.onerror = () => {
+            set((state) => {
+              return {
+                loading: false,
+                conversationsMessages: {
+                  ...state.conversationsMessages,
+                  [selectedConversation]: state.conversationsMessages[
+                    selectedConversation
+                  ].map((entry) => {
+                    if (entry.id === IAMessageID) {
+                      return {
+                        ...entry,
+                        error: true,
+                        message
+                      }
+                    }
+                    return entry
+                  })
+                }
+              }
+            })
+          }
+
           eventSource.onmessage = (event) => {
-            console.log(event)
             if (event.data === '[DONE]') {
               set(() => ({ loading: false }))
 
@@ -100,7 +137,7 @@ export const useConversationsStore = create(
               return
             }
 
-            message += event.data
+            message += JSON.parse(event.data)
 
             // Actualizar el mensaje de la IA
             // que tenía el mensaje vacio,
@@ -136,12 +173,15 @@ export const useConversationsStore = create(
         getItem: async (name) =>
           new Promise((resolve) =>
             setTimeout(() => {
-              const value = localStorage.getItem(name)
+              const isServer = typeof window === 'undefined'
+              if (isServer) return
+
+              const value = localStorage?.getItem(name)
               resolve(value)
             }, 100)
           ),
-        setItem: (name, value) => localStorage.setItem(name, value),
-        removeItem: (name) => localStorage.removeItem(name)
+        setItem: (name, value) => localStorage?.setItem(name, value),
+        removeItem: (name) => localStorage?.removeItem(name)
       }))
     }
   )
