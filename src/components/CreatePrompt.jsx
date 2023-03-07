@@ -67,12 +67,12 @@ export function ChatForm() {
   }, [])
 
   return (
-    <section className='fixed bottom-0 left-0 right-0 w-full ml-32 border-t md:border-t-0 dark:border-white/20 md:border-transparent bg-gradient'>
+    <section className='fixed bottom-0 left-0 right-0 w-full px-2 border-t lg:ml-32 md:border-t-0 dark:border-white/20 md:border-transparent bg-gradient'>
       <form
         disabled={isLoading}
         onSubmit={handleSubmit}
         onKeyDown={handleKeyDown}
-        className='flex flex-row max-w-3xl pt-6 m-auto mb-6'
+        className='flex flex-row max-w-3xl pt-6 m-auto mb-2'
       >
         <div className='relative flex flex-col flex-grow w-full px-4 py-3 text-white border rounded-md shadow-lg bg-gptlightgray border-gray-900/50'>
           <textarea
