@@ -3,9 +3,9 @@ import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { useConversationsStore } from '@/store/conversations'
 
 const EXAMPLES = [
-  'Explain quantum computing in simple terms',
-  'Got any creative ideas for a 10 year old’s birthday?',
-  'How do I make an HTTP request in Javascript?'
+  '¿Cómo iterar un array en JavaScript?',
+  'Explícame cómo funciona un coche',
+  '¿Por qué se dice que un gato tiene 7 vidas?'
 ]
 
 export function Welcome() {
@@ -43,7 +43,7 @@ export function Welcome() {
           </a>
         </div>
 
-        <h3 className='flex items-center justify-center mt-8 mb-2 text-lg gap-x-2'><SunIcon />Examples</h3>
+        <h3 className='flex items-center justify-center mt-8 mb-2 text-lg gap-x-2'><SunIcon />Ejemplos</h3>
 
         <ul className='flex flex-col gap-3.5 w-full sm:max-w-md m-auto'>
           {
