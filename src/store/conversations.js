@@ -35,8 +35,24 @@ export const useConversationsStore = create(
           }
         })
       },
-      addNewConversation: async ({ id }) => {
-        set((state) => {})
+      addNewConversation: async () => {
+        const selectedConversation = crypto.randomUUID()
+
+        set((state) => ({
+          loading: true,
+          selectedConversation,
+          conversationsMessages: {
+            ...state.conversationsMessages,
+            [selectedConversation]: []
+          },
+          conversationsInfo: {
+            ...state.conversationsInfo,
+            [selectedConversation]: {
+              id: selectedConversation,
+              name: 'New conversation'
+            }
+          }
+        }))
       },
       sendPrompt: async ({ prompt }) => {
         let selectedConversation = get().selectedConversation
