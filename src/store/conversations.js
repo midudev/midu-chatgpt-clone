@@ -2,7 +2,6 @@ import { compress } from 'lz-ts'
 import { mountStoreDevtool } from 'simple-zustand-devtools'
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
-import snarkdown from 'snarkdown'
 
 export const useConversationsStore = create(
   persist(
@@ -11,6 +10,9 @@ export const useConversationsStore = create(
       conversationsMessages: {},
       conversationsInfo: {},
       selectedConversation: null,
+      selectConversation: ({ id }) => {
+        set(() => ({ selectedConversation: id }))
+      },
       clearConversations: () => {
         set(() => ({
           loading: false,
@@ -39,7 +41,7 @@ export const useConversationsStore = create(
         const selectedConversation = crypto.randomUUID()
 
         set((state) => ({
-          loading: true,
+          loading: false,
           selectedConversation,
           conversationsMessages: {
             ...state.conversationsMessages,
